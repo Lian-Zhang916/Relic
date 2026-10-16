@@ -49,6 +49,8 @@ from relic.source_runner import (
 TRANSFER_RUN_MANIFEST_SCHEMA_VERSION = "relic-transfer-run-manifest-v1"
 TRANSFER_PLAN_SCHEMA_VERSION = "relic-transfer-plan-v1"
 TRANSFER_MODEL = "gpt-5.6-terra"
+# Protocol-maintenance fork (2026-10-16): gpt-6.1-sol is also accepted.
+TRANSFER_MODELS = (TRANSFER_MODEL, "gpt-6.1-sol")
 TRANSFER_ARMS = ("text", "exec")
 _CANONICAL_BUNDLE_RELATIVE_PATH = Path(
     "environments/org_env/data/capability_bundles/canonical_v2.json"
@@ -141,8 +143,8 @@ def _canonical_bundle() -> tuple[Path, Mapping[str, Any], str]:
 
 def _require_model(model: str | None) -> str:
     normalized = str(model or TRANSFER_MODEL).strip().lower()
-    if normalized != TRANSFER_MODEL:
-        raise TransferRunnerError("transfer_model_must_be_gpt_5_6_terra")
+    if normalized not in TRANSFER_MODELS:
+        raise TransferRunnerError("transfer_model_not_supported")
     return normalized
 
 
@@ -322,7 +324,7 @@ def _validate_manifest(payload: Mapping[str, Any]) -> Mapping[str, Any]:
     ):
         raise TransferRunnerError("transfer_plan_evaluator_binding_invalid")
     model = plan.get("model")
-    if not isinstance(model, Mapping) or model.get("canonical_model") != TRANSFER_MODEL:
+    if not isinstance(model, Mapping) or model.get("canonical_model") not in TRANSFER_MODELS:
         raise TransferRunnerError("transfer_plan_model_mismatch")
     target = plan.get("target")
     expected_target = {

@@ -5,6 +5,8 @@ study: relic-main-v1
 models:
   - gpt-5.6-terra
   - claude-opus-4.6
+  # Protocol-maintenance fork addition (2026-10-16); not part of the paper's 240 runs.
+  - gpt-6.1-sol
 workloads: [w01, w02, w03, w04, w05, w06, w07, w08, w09, w10]
 seeds: [1401, 2711, 4013]
 arms: [b0, b1, b2, b3]

@@ -617,7 +617,7 @@ def build_parser() -> argparse.ArgumentParser:
     transfer.add_argument(
         "--model",
         default="gpt-5.6-terra",
-        help="fixed final-transfer model (must be gpt-5.6-terra)",
+        help="final-transfer model (gpt-5.6-terra or gpt-6.1-sol)",
     )
     transfer.add_argument(
         "--runtime-model",

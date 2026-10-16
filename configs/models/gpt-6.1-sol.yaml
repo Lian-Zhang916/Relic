@@ -1,0 +1,11 @@
+schema_version: relic-model-v1
+model: gpt-6.1-sol
+paper_label: GPT-6.1 Sol
+provider: openai
+runtime_model_default: gpt-6.1-sol
+wire_api: responses
+json_transport: native
+reasoning_effort: low
+request_timeout_seconds: 180
+max_retries: 6
+retry_backoff_seconds: 3
