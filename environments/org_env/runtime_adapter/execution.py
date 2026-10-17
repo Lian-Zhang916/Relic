@@ -2318,7 +2318,7 @@ class OrgExecutionAdapter:
         t = w.tasks.get(tid)
         if t is None:
             res.success = False; res.failure_reason = "no_task"; return
-        if aid not in w.agents[aid].active_tasks:
+        if tid not in w.agents[aid].active_tasks:
             w.agents[aid].active_tasks.append(tid)
 
         from environments.org_env.backend.entities.work import TaskStatus
