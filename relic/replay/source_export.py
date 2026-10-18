@@ -800,7 +800,9 @@ def _project_governance_events(
         ):
             raise SourceTraceExportError("public_trace_governance_event_identity_invalid")
         if actor is not None and actor not in agent_ids:
-            raise SourceTraceExportError("public_trace_governance_actor_unpublished")
+            # The registry's own diagnostics ("system") and evaluator attestations
+            # are not members; publish such events without an actor.
+            actor = None
         item: dict[str, Any] = {
             "event_id": f"source_governance_{event_id}",
             "event_type": event_type,
