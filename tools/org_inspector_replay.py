@@ -264,6 +264,8 @@ def main() -> None:
     # materials (replay / final snapshot / human summary / meta).
     run_id = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = REPO_ROOT / "log" / f"{run_id}_{name}_seed{seed}_{'llm' if use_llm else 'mock'}"
+    # Release snapshots belong to this run, not to a directory shared by every run.
+    os.environ.setdefault("ORG_PRODUCT_EXPORT_ROOT", str(run_dir / "product_exports" / "releases"))
     replay_path = run_dir / "replay.json"
     snapshot_path = run_dir / "final_snapshot.json"
     summary_path = run_dir / "summary.txt"

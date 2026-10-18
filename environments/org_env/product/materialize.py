@@ -1078,7 +1078,9 @@ def release_smoke(
 
 def export_release_snapshot(world: Any, version: str, base: str = None) -> Dict[str, Any]:
     """Materialize the MAINLINE tree as a real, persistent release snapshot directory."""
-    base = base or os.path.join("docs", "product_exports", "releases")
+    # ORG_PRODUCT_EXPORT_ROOT gives each run its own release directory; the shared
+    # default lets runs in one checkout reuse each other's stale release files.
+    base = base or os.environ.get("ORG_PRODUCT_EXPORT_ROOT") or os.path.join("docs", "product_exports", "releases")
     dest = os.path.join(base, "v" + str(version))
     exp = export_product_repo(world, dest, prefer_mainline=True)
     smoke = run_product_smoke(dest, command=_declared_smoke_command(world))
